@@ -1,0 +1,50 @@
+# Refer to "Slide 14" of GitHub Action_5.ppt
+# This is a basic workflow to help you get started with Actions
+
+name: My cool Workflow
+
+# controls when the workflow will run
+on: 
+  # triggers the workflow on push or pull request events but only for the main branch
+  push: 
+#    branches: [ main ] # <- without this, I am pushing to any branch.
+  pull_request:
+#    branches: [ main ] # <- without this, I am pulling from any branch.
+
+  # allow you to run this workflow manually from the Actions tab
+  workflow_dispatch: 
+
+# "Slide 15" of GitHub Actions_5.ppt
+# a workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+    # 2 tabs! (different from the above) to declare a job
+  # This workflow contains a single job called "myfirstjob"
+  myfirstjob:
+    name: First Job
+    # the type of runner that the job will run on
+    runs-on: ubuntu-latest 
+    # myfirstjob will run in ubuntu in its latest machine
+    
+    # steps represent a sequence of tasks that will run as a part of the job
+    steps:
+      # Step 1: check the repository that you use: under $GITHUB_WORKSPACE -> to access your job
+      - name: Step One
+      # one tab
+        uses: actions/checkout@v3
+        # v3 (= version 3): the latest version
+        
+      # Step 2: check the repository that you use: under $GITHUB_WORKSPACE -> to access your job
+      - name: Step Two
+        run: |
+          # "one space" after ": (colon)"
+          # "|": runs multiple ccommands in the same execution
+          # "touch" to create a file, "newfile.yaml."- the creating file can be any file including txt
+          touch newfile.yaml
+          # "echo": print the screen + ">>" (= to/in) + "newfile.yaml"
+          echo "Please Alex, it's Friday (lol). Let's have fun!" >> newfile.yaml
+          cat newfile.yaml
+          # Cat command in Linux with examples
+          # — Cat(concatenate) reads data from the file and gives their content as output.
+          pwd
+          # pwd: presently working directory
+  
