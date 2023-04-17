@@ -51,7 +51,7 @@ jobs:
 
   mysecondjob:
     needs: [myfirstjob]
-    # run "myfirstjob" -> then, run "mysecondjob"
+    # run "myfirstjob" -> then, run "mysecondjob" => it's Parallel!
     name: Second Job
     runs-on: macos-latest
     # If you are a MacOS user, "runs-on: macos-latest" --> should I? or use "ubuntu"?
@@ -62,8 +62,7 @@ jobs:
 
 
   mythirdjob:
-#    needs: [myfirstjob]
-    # run "myfirstjob" -> then, run "mysecondjob"
+  # "mythirdjob" runs independently, while runnning "myfirstjob" -> "mysecondjob"
     name: Third Job
     runs-on: windows-latest
     # If you are a MacOS user, "runs-on: macos-latest"
