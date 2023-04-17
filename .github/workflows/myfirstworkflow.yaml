@@ -48,3 +48,34 @@ jobs:
           pwd
           # pwd: presently working directory
   
+
+  mysecondjob:
+    needs: [myfirstjob]
+    # run "myfirstjob" -> then, run "mysecondjob"
+    name: Second Job
+    runs-on: macos-latest
+    # If you are a MacOS user, "runs-on: macos-latest" --> should I? or use "ubuntu"?
+    steps:
+    - name: Step One
+      run: date
+      # displays today's date
+
+
+  mythirdjob:
+#    needs: [myfirstjob]
+    # run "myfirstjob" -> then, run "mysecondjob"
+    name: Third Job
+    runs-on: windows-latest
+    # If you are a MacOS user, "runs-on: macos-latest"
+    steps:
+    - name: Step One
+      run: date
+      # displays today's date
+
+### every job of the three jobs runs in different OS (Operating Systems)
+
+
+
+
+
+
