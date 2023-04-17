@@ -39,10 +39,14 @@ jobs:
           # "one space" after ": (colon)"
           # "|": runs multiple ccommands in the same execution
           # "touch" to create a file, "newfile.yaml."- the creating file can be any file including txt
-          touch newfile.yaml
+          # secret -> ${{ secrets.SECRET_NAME }}
+          # touch newfile.yaml -> remove this for the update! -> replace it with "${{ secrets.SECRET_NAME }}" -> change "SECRET_NAME" into "
+          touch ${{ secrets.MY_SECRET }}.yaml
           # "echo": print the screen + ">>" (= to/in) + "newfile.yaml"
-          echo "Please Alex, it's Friday (lol). Let's have fun!" >> newfile.yaml
-          cat newfile.yaml
+          echo "Please Alex, it's Friday (lol). Let's have fun!" >> ${{ secrets.MY_SECRET }}.yaml
+          # change "newfile.yaml" into "${{ secrets.MY_SECRET }}.yaml"
+          cat ${{ secrets.MY_SECRET }}.yaml
+          # change "newfile.yaml" into "${{ secrets.MY_SECRET }}.yaml"
           # Cat command in Linux with examples
           # — Cat(concatenate) reads data from the file and gives their content as output.
           pwd
@@ -72,9 +76,3 @@ jobs:
       # displays today's date
 
 ### every job of the three jobs runs in different OS (Operating Systems)
-
-
-
-
-
-
