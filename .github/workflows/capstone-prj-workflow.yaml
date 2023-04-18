@@ -1,0 +1,44 @@
+name:  Test workflow
+
+on:
+  push: 
+  pull_request: 
+  workflow_dispatch:
+
+jobs:
+    testJob:
+              name: Run tests
+              runs-on: ubuntu-latest
+              steps:
+              - name: Load repository
+                uses: actions/checkout@v3
+
+              - name: Install dependencies
+                run:  | 
+                      cd capstone_project/hello-world/
+                      npm install
+                      pwd
+                      ls                     
+              - name: Run tests
+                run: |
+                      cd capstone_project/hello-world/
+                      npm run test
+              - name: Check for success
+                if: ${{ success() }}
+                run: echo "success"
+                
+    build-docker:
+          needs: testJob
+          runs-on: ubuntu-latest
+          if: ${{ needs.testJob.result == 'success' }}
+          steps:
+            - name: Checkout code
+              uses: actions/checkout@v2
+
+            - name: Build Docker image
+              run: |
+                    cd capstone_project/hello-world/
+                    docker build -t hello-world-img .
+                    docker run --name hello-world -p 3000:3000 -itd hello-world-img
+                    docker ps
+                    docker logs hello-world
