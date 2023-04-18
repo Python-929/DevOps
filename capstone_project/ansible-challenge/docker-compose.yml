@@ -1,6 +1,11 @@
 version: "3.9"
+networks:
+  my-network:
+    driver: bridge
 services:
   ansible:
+    networks:
+      - my-network
     build:
       context: ./ansible_base
       dockerfile: Dockerfile
@@ -10,9 +15,11 @@ services:
         source: ./ansible_files
         target: /home/ansible_controller/ansible_files
   target1:
+    networks:
+      - my-network
     ports:
       - "3000:3000"
     build:
       context: ../hello-world
       dockerfile: Dockerfile
-    container_name: hello-world
+    container_name : hello-world

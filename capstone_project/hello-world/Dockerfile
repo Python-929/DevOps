@@ -14,15 +14,20 @@ RUN apt-get update  -y \
     sudo \
     software-properties-common
 
-# Define the working directory of a Docker container
+# Set a UserID and Password
+RUN useradd -rm -d /home/sumi -s /bin/bash -g root -G sudo -u 1001 sumi
+RUN echo sumi:103 | chpasswd
+
+# No Password Required
+RUN echo "sumi ALL=(ALL:ALL) NOPASSWD: ALL" |  EDITOR="tee -a"  visudo
+
 WORKDIR /home/sumi
 
 #COPY startup.sh ./
-COPY startup.sh .
+COPY startup.sh ./
 
 # Copy package*.json & package-lock.json files to the container
 COPY package*.json ./
-
 
 # Copy ./public and ./src of the project hello-world to the container
 COPY ./public ./public
@@ -31,19 +36,14 @@ COPY ./src ./src
 # Install the node.js dependencies
 RUN npm install
 
-# Set a UserID and Password
-RUN useradd -rm -d /home/sumi -s /bin/bash -g root -G sudo -u 1001 sumi
-RUN echo sumi:103 | chpasswd
-
-# No Password Required
-RUN echo "sumi ALL=(ALL:ALL) NOPASSWD: ALL" |  EDITOR="tee -a"  visudo
-
-# create .ssh dir
+# make .ssh directory
 RUN mkdir -p /home/sumi/.ssh
 
 # Expose: Define the network ports that this container will listen on at runtime
 EXPOSE 3000
 
-# Run SSH script -> start the hello-world application
-#CMD ["npm","start"]
+EXPOSE 22
+
+# Run SSC script -> start the hello-world application
+# CMD ["/bin/bash", "/home/ansible_controller/startup.sh"]
 CMD ["/bin/bash", "/home/sumi/startup.sh"]
